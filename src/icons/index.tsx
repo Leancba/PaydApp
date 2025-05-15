@@ -1,20 +1,20 @@
-import WhatsApp from './WhatsApp';
-import WalletAdd from './WalletAdd';
-import UsdCurrency from './UsdCurrency';
-import SpainFlag from './SpainFlag';
-import ShareQR from './ShareQR';
-import Share from './Share';
-import MoneyTime from './MoneyTime';
-import Mail from './Mail';
-import Link from './Link';
-import HongKongFlag from './HongKongFlag';
-import HondurasFlag from './HondurasFlag';
-import GuyanaFlag from './GuyanaFlag';
-import GuatemalaFlag from './GuatemalaFlag';
-import GreciaFlag from './GreciaFlag';
-import GbpCurrency from './GbpCurrency';
-import EurCurrency from './EurCurrency';
-import EquatorialGuineaFlag from './EquatorialGuineaFlag';
+import WhatsApp from './svg/WhatsApp';
+import WalletAdd from './svg/WalletAdd';
+import UsdCurrency from './svg/UsdCurrency';
+import SpainFlag from './svg/SpainFlag';
+import ShareQR from './svg/ShareQR';
+import Share from './svg/Share';
+import MoneyTime from './svg/MoneyTime';
+import Mail from './svg/Mail';
+import Link from './svg/Link';
+import HongKongFlag from './svg/HongKongFlag';
+import HondurasFlag from './svg/HondurasFlag';
+import GuyanaFlag from './svg/GuyanaFlag';
+import GuatemalaFlag from './svg/GuatemalaFlag';
+import GreciaFlag from './svg/GreciaFlag';
+import GbpCurrency from './svg/GbpCurrency';
+import EurCurrency from './svg/EurCurrency';
+import EquatorialGuineaFlag from './svg/EquatorialGuineaFlag';
 
 export const Icons = {
   WhatsApp,
