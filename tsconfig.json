@@ -10,7 +10,10 @@
       "@icons/*": ["icons/*"],
       "@helpers/*": ["helpers/*"],
       "@services/*": ["services/*"],
-      "@constants/*": ["constants/*"]
+      "@constants/*": ["constants/*"],
+      "@assets/*": ["constants/*"],
+      "@actions/*": ["redux/actions/*"],
+      "@hooks/*": ["hooks/*"],
     }
   }
 }

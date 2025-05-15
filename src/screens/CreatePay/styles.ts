@@ -16,6 +16,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical:40
   },
   input: {
     marginBottom: 16,

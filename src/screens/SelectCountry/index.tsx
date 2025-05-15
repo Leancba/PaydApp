@@ -2,12 +2,10 @@ import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 import { TextInput, List, Checkbox } from 'react-native-paper';
-
 import { CountryOptions } from '@helpers/index';
-import { useSelector } from '../../hooks/useState';
-import { updatePrefix } from '../../redux/actions/paidActions';
+import { useSelector } from '@hooks/useSelector';
+import { updatePrefix } from '@actions/paidActions';
 import { navigate } from '@helpers/index';
-
 
 const SelectCountry = () => {
   const [text, setText] = React.useState('');

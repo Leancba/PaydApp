@@ -1,27 +1,33 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
+import { Button } from 'react-native-paper';
+import { navigate } from '@helpers/index';
+import logo from '../../assets/congrats.png';
+import styles from './styles';
 
-const SuccessfulPayScreen = () => {
-
+const CongratsScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.whiteText}>Pago recibido.</Text>
-      <Text style={styles.whiteText}>El pago se ha confirmado con éxito.</Text>
+      <View style={styles.contentWrapper}>
+        <Image source={logo} style={styles.image} resizeMode="contain" />
+        <Text style={styles.title}>Pago recibido</Text>
+        <Text style={styles.subtitle}>El pago se ha confirmado con éxito</Text>
+      </View>
+      <Button
+        mode="contained"
+        onPress={() =>
+          navigate.reset({
+            index: 0,
+            routes: [{ name: 'CreatePayScreen' }],
+          })
+        }
+        labelStyle={styles.buttonLabel}
+        style={styles.finishButton}
+      >
+        Finalizar
+      </Button>
     </View>
   );
 };
 
-export default SuccessfulPayScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#035AC5',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  whiteText: {
-    color: 'red',
-  }
-});
+export default CongratsScreen;

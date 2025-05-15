@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Appbar, Button } from 'react-native-paper';
 import { View, Text } from 'react-native';
-import { navigate } from '../../helpers';
+import { navigate } from '@helpers/index';
 import { HeaderProps } from '@interfaces/components';
-import { useSelector } from '../../hooks/useState';
+import { useSelector } from '@hooks/useSelector';
 import styles from './styles';
 
 const Header = ({ title, back = true, isCurrency = false }: HeaderProps) => {

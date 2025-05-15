@@ -14,7 +14,7 @@ export type CurrencyItem = {
 };
 
 export interface PaymentCardProps {
-  amount: string;
+  amount: number;
   currency: string;
 }
 

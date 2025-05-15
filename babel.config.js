@@ -10,10 +10,13 @@ module.exports = {
           '@components': './src/components',
           '@screens': './src/screens',
           '@utils': './src/utils',
-          '@icons': './src/icons',
+          '@icons': './src/icons/',
           '@helpers': './src/helpers',
           '@services': './src/services',
-          '@constants': './src/constants'
+          '@constants': './src/constants',
+          '@assets': './src/assets',
+          '@actions': './src/redux/actions',
+          '@hooks': './src/hooks',
         }
       }
     ]
@@ -31,10 +34,13 @@ module.exports = {
               '@components': './src/components',
               '@screens': './src/screens',
               '@utils': './src/utils',
-              '@icons': './src/icons',
+              '@icons': './src/icons/',
               '@helpers': './src/helpers',
               '@services': './src/services',
-              '@constants': './src/constants'
+              '@constants': './src/constants',
+              '@assets': './src/assets',
+              '@actions': './src/redux/actions',
+              '@hooks': './src/hooks',
             }
           }
         ]

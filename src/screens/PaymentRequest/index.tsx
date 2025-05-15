@@ -1,61 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { Button, IconButton, TextInput } from 'react-native-paper';
-import { ShareQR, Link, Mail, WhatsApp, Share, WalletAdd } from '@icons/index';
-
+import { navigate } from '@helpers/index';
+import { Icons } from '@icons/index';
 import PaymentCard from '@components/paymentCard';
-
-import { navigate } from '../../helpers';
-import { useSelector } from '../../hooks/useState';
-import { createOrder } from '@services/paidServices';
+import SendModal from '@components/sendModal';
+import { createOrdeService } from '@actions/orderActions';
+import { useSelector } from '@hooks/useSelector';
 
 import styles from './styles';
-
 
 const PaymentRequestScreen = () => {
 
 	const selectedPrefix = useSelector((state) => state.paidInfo.prefix);
 	const currency = useSelector((state) => state.paidInfo.currency);
+	const amount = useSelector((state) => state.paidInfo.amount);
+	const url = useSelector((state) => state.orderInfo.web_url);
+	const loading = useSelector((state) => state.orderInfo.loading);
 
 	const [whatsappNumber, setWhatsappNumber] = useState('');
+	const [whatsAppLoading, setWhatsAppLoading] = useState(false);
 
-	const [paydData, setPaydData] = useState('');
-	const [loading, setLoading] = useState(true);
+	const [modalVisible, setModalVisible] = useState(false);
 
 
-	// useEffect(() => {
-	// 	const loadOrder = async () => {
-	// 		try {
-	// 			const response = await createOrder();
-	// 			setPaydData(response)
-	// 		} catch (err) {
-	// 			console.error('Error al crear orden:', err);
-	// 		} finally {
-	// 			setLoading(false);
-	// 		}
-	// 	};
-	// 	loadOrder();
-	// }, []);
-
-	const test = 'wwww.google.com.ar'
-
+	useEffect(() => {
+		const fetchOrder = async () => {
+			if (amount) {
+				await createOrdeService(amount);
+			}
+		};
+		fetchOrder();
+	}, [amount]);
 
 
 	return (
 		<View style={styles.container}>
-			<PaymentCard amount="56,00" currency={currency} />
+			<PaymentCard amount={amount} currency={currency} />
 
-			<View style={{ flex: 1, width:'100%' }} >
-
+			<View style={{ flex: 1, width: '100%' }} >
 				<View style={styles.linkRow}>
 					<TextInput
-						value={test}
+						value={url}
 						style={{ backgroundColor: 'transparent', flex: 1, maxHeight: 56 }}
 						contentStyle={styles.textInputContent}
 						mode="outlined"
 						activeOutlineColor="#035AC5"
 						outlineColor="#E5E9F2"
-						left={<TextInput.Icon icon={() => <Link />} />}
+						left={<TextInput.Icon icon={() => <Icons.Link />} />}
 					/>
 					<IconButton
 						style={styles.iconButtonQR}
@@ -63,29 +55,26 @@ const PaymentRequestScreen = () => {
 							loading ? (
 								<ActivityIndicator size={24} color="#035AC5" />
 							) : (
-								<ShareQR {...props} />
+								<Icons.ShareQR {...props} />
 							)
 						}
-						onPress={() => {
-							if (!loading) {
-								navigate.to('QrScreen', { paydData: paydData });
-							}
-						}}
+						onPress={() => navigate.to('QrScreen')}
 						disabled={loading}
 					/>
 				</View>
 				<View style={styles.linkRow}>
 					<TextInput
-						value={test}
-						style={{ backgroundColor: 'transparent', flex: 1, maxHeight: 56 }}
+						placeholder="Enviar por correo electrónico"
+						placeholderTextColor={'#002859'}
+						style={styles.textInputTransparent}
 						contentStyle={styles.textInputContent}
 						mode="outlined"
 						activeOutlineColor="#035AC5"
 						outlineColor="#E5E9F2"
-						left={<TextInput.Icon icon={() => <Mail />} />}
+						left={<TextInput.Icon icon={() => <Icons.Mail />} />}
+						disabled
 					/>
 				</View>
-
 				<View style={styles.linkRow}>
 					<TextInput
 						placeholder="Enviar a número de WhatsApp"
@@ -96,7 +85,7 @@ const PaymentRequestScreen = () => {
 						mode="outlined"
 						activeOutlineColor="#035AC5"
 						outlineColor="#E5E9F2"
-						left={<TextInput.Icon icon={() => <WhatsApp />} />}
+						left={<TextInput.Icon icon={() => <Icons.WhatsApp />} />}
 					/>
 					{!!whatsappNumber && (
 						<Button
@@ -116,7 +105,14 @@ const PaymentRequestScreen = () => {
 							labelStyle={{ color: '#FFFFFF', fontFamily: 'Mulish-Regular' }}
 							contentStyle={{ flexDirection: 'row-reverse' }}
 							style={styles.sendButton}
-							onPress={() => navigate.to('SelectCountry')}
+							onPress={() => {
+								setWhatsAppLoading(true);
+								setTimeout(() => {
+									setWhatsAppLoading(false);
+									setModalVisible(true);
+								}, 3000);
+							}}
+							loading={whatsAppLoading}
 						>
 							Enviar
 						</Button>
@@ -124,23 +120,28 @@ const PaymentRequestScreen = () => {
 				</View>
 				<View style={styles.linkRow}>
 					<TextInput
-						style={{ backgroundColor: 'transparent', flex: 1, maxHeight: 56 }}
+						placeholder="Compartir con otras aplicaciones"
+						placeholderTextColor={'#002859'}
+						style={styles.textInputTransparent}
+						contentStyle={styles.textInputContent}
 						mode="outlined"
 						activeOutlineColor="#035AC5"
 						outlineColor="#E5E9F2"
-						left={<TextInput.Icon icon={() => <Share />} />}
+						left={<TextInput.Icon icon={() => <Icons.WalletAdd />} />}
+						disabled
 					/>
 				</View>
 			</View>
 			<Button
 				mode="contained"
-				icon={() => <WalletAdd />}
+				icon={() => <Icons.WalletAdd />}
 				style={styles.newRequestButton}
 				labelStyle={styles.newRequestLabel}
 				onPress={() => console.log('Nueva solicitud')}
 			>
 				Nueva solicitud
 			</Button>
+			<SendModal visible={modalVisible} onClose={() => setModalVisible(false)} />
 		</View>
 	);
 };

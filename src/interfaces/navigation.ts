@@ -3,5 +3,8 @@ export type MainStackParamList = {
 	CurrencySelector: undefined;
 	PaymentRequestScreen: undefined;
 	SelectCountry: undefined;
-	QrScreen: undefined
+	QrScreen: undefined;
+	SuccessfulPayScreen: undefined;
+	CreatePayNavigation: undefined;
+	PayNavigation: undefined
 };

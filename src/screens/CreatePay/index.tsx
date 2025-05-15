@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import styles from './styles';
-import { useSelector } from '../../hooks/useState';
 import { navigate } from '@helpers/index';
+import { useSelector } from '@hooks/useSelector';
+import { updateAmount } from '@actions/paidActions';
 
 const CreatePayScreen = () => {
 
-	const [text, setText] = useState("");
 	const [concept, setConcept] = useState("");
 	const selectedCurrency = useSelector((state) => state.paidInfo.currency);
+	const amount = useSelector((state) => state.paidInfo.amount);
 	const isEur = selectedCurrency === 'EUR';
 
 	return (
@@ -19,14 +20,14 @@ const CreatePayScreen = () => {
 				<TextInput
 					placeholder={'0.00'}
 					placeholderTextColor={"#C0CCDA"}
-					value={text}
-					onChangeText={setText}
+					value={amount}
+					onChangeText={updateAmount}
 					left={
 						!isEur && (
 							<TextInput.Icon
 								size={40}
 								icon="currency-usd"
-								color={!!text ? "#035AC5" : "#C0CCDA"}
+								color={!!amount ? "#035AC5" : "#C0CCDA"}
 							/>
 						)
 					}
@@ -35,23 +36,24 @@ const CreatePayScreen = () => {
 							<TextInput.Icon
 								size={40}
 								icon="currency-eur"
-								color={!!text ? "#035AC5" : "#C0CCDA"}
+								color={!!amount ? "#035AC5" : "#C0CCDA"}
 							/>
 						)
 					}
 					mode="flat"
 					style={styles.amountInput}
 					contentStyle={styles.amountInputContent}
-					textColor={!!text ? "#035AC5" : "#C0CCDA"}
+					textColor={!!amount ? "#035AC5" : "#C0CCDA"}
 					keyboardType="numeric"
 					underlineColor="transparent"
 					activeUnderlineColor="transparent"
 				/>
 			</View>
-
 			<View style={{ flex: 1, width: '100%' }} >
 				<Text style={styles.conceptLabel}>Concepto</Text>
 				<TextInput
+					placeholder='Añade descripción del pago'
+					placeholderTextColor={"#647184"}
 					value={concept}
 					onChangeText={setConcept}
 					maxLength={140}
@@ -66,9 +68,10 @@ const CreatePayScreen = () => {
 			</View>
 			<Button
 				mode="contained"
-				onPress={() => navigate.to('PaymentRequestScreen')}
+				onPress={() => navigate.to('PayNavigation')}
 				labelStyle={styles.buttonLabel}
 				style={styles.button}
+				disabled={amount?.trim() === ''}
 			>
 				Continuar
 			</Button>

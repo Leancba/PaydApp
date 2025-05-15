@@ -4,7 +4,7 @@ const paidSlice = createSlice({
   name: 'paidInfo',
   initialState: {
     currency: 'USD',
-    amount: 0,
+    amount: null,
     prefix: '+34',
   },
   reducers: {

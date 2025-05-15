@@ -79,7 +79,11 @@ const styles = StyleSheet.create({
 	},
 	newRequestButton: {
 		borderRadius: 8,
-		backgroundColor: '#FFF',
+		backgroundColor: '#F9FAFC',
+		width:'100%',
+		height:56,
+		alignItems:'center',
+		justifyContent:'center',
 		flexDirection: 'row-reverse',
 	},
 	newRequestLabel: {

@@ -1,31 +1,15 @@
 import React from 'react';
-import CreatePayScreen from '@screens/CreatePay';
-import CurrencySelector from '@screens/CurrencySelector';
 import PaymentRequestScreen from '@screens/PaymentRequest';
 import SelectCountry from '@screens/SelectCountry';
 import QrScreen from '@screens/QrScreen';
 import SuccessfulPayScreen from '@screens/SuccessfulPay';
 
 import Header from '@components/header';
-import { Stack } from '@helpers/index';
+import { Stack } from '@helpers/navigation';
 
-const MainStack = () => {
+const PayNavigation = () => {
 	return (
-		<Stack.Navigator initialRouteName="CreatePayScreen">
-			<Stack.Screen
-				name="CreatePayScreen"
-				component={CreatePayScreen}
-				options={() => ({
-					header: () => <Header title="Crear pago" isCurrency={true} back={false} />
-				})}
-			/>
-			{/* <Stack.Screen
-				name="CurrencySelector"
-				component={CurrencySelector}
-				options={() => ({
-					header: () => <Header title="Selecciona una divisa" />
-				})}
-			/>
+		<Stack.Navigator initialRouteName="PaymentRequestScreen">
 			<Stack.Screen
 				name="PaymentRequestScreen"
 				component={PaymentRequestScreen}
@@ -51,9 +35,9 @@ const MainStack = () => {
 				options={() => ({
 					header: () => <Header title="" />
 				})}
-			/> */}
+			/>
 		</Stack.Navigator>
 	);
 };
 
-export default MainStack;
+export default PayNavigation;

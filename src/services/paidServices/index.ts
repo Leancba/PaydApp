@@ -1,4 +1,4 @@
-export const createOrder = async () => {
+export const createOrder = async (amount: number) => {
   try {
     const response = await fetch('https://payments.pre-bnvo.com/api/v1/orders/', {
       method: 'POST',
@@ -7,13 +7,14 @@ export const createOrder = async () => {
         'X-Device-Id': 'd497719b-905f-4a41-8dbe-cf124c442f42',
       },
       body: JSON.stringify({
-        expected_output_amount: 100.0,
+        expected_output_amount: amount,
       }),
     });
 
     const data = await response.json();
-    return data
+    return data;
   } catch (error) {
     console.error('Error creando la orden:', error);
+    throw error; 
   }
 };
