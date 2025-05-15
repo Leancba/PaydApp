@@ -1,11 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { colors } from '@constants/colors';
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		padding: 16,
-		backgroundColor: '#FFF',
-		alignItems:'center'
+		backgroundColor: colors.background,
 	},
 	card: {
 		borderRadius: 12,
@@ -89,6 +88,7 @@ const styles = StyleSheet.create({
 	newRequestLabel: {
 		color: '#035AC5',
 	},
+	inputContainer:{ flex: 1, marginVertical:20 }
 });
 
 export default styles;

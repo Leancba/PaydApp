@@ -40,7 +40,12 @@ const styles = StyleSheet.create({
     width: 70,
     backgroundColor: colors.backgroundIcon,
   },
-  contentButton :{ flexDirection: 'row-reverse' }
+  contentButton: { flexDirection: 'row-reverse' },
+  bannerImage: {
+    height: 32,
+    width:88,
+  }
+
 });
 
 export default styles;

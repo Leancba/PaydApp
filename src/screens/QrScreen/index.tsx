@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { Icon } from 'react-native-paper';
-import logo from '../../assets/logo.jpg';
-import styles from './styles';
 import { navigate } from '@helpers/navigation';
 import { qrSize } from '@helpers/index';
 import { useSelector } from '@hooks/useSelector';
 import { connectToPaymentSocket, closePaymentSocket } from '@services/websocketService';
+import { resetPaymentState } from '@actions/paidActions';
+import logo from '../../assets/logo.jpg';
+import styles from './styles';
 
 
 const QrScreen = () => {
@@ -15,6 +16,7 @@ const QrScreen = () => {
   const currency = useSelector((state) => state.paidInfo.currency);
   const amount = useSelector((state) => state.paidInfo.amount);
   const identifier = useSelector((state) => state.orderInfo.identifier);
+  const url = useSelector((state) => state.orderInfo.web_url);
 
   const [status, setStatus] = useState('pending');
 
@@ -27,6 +29,7 @@ const QrScreen = () => {
 
         if (newStatus === 'CO') {
           navigate.to('SuccessfulPayScreen');
+          resetPaymentState()
         }
       }
     });
@@ -36,6 +39,7 @@ const QrScreen = () => {
     };
   }, [identifier]);
 
+  
   return (
     <View style={styles.container}>
       <View style={styles.infoBox}>
@@ -49,6 +53,7 @@ const QrScreen = () => {
 
       <View style={styles.qrWrapper}>
         <QRCode
+          value={url ?? 'https://www.google.com/'}
           size={qrSize}
           logo={logo}
           logoSize={80}

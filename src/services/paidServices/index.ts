@@ -1,13 +1,21 @@
-export const createOrder = async (amount: number) => {
+import { API_URL, DEVICE_ID } from '@env';
+import { CreateOrderFn } from '@interfaces/components';
+
+export const createOrder: CreateOrderFn = async (amount, currency, concept) => {
+  const parsedAmount = parseFloat(amount.replace(',', '.'));
+
   try {
-    const response = await fetch('https://payments.pre-bnvo.com/api/v1/orders/', {
+
+    const response = await fetch(`${API_URL}/orders/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Device-Id': 'd497719b-905f-4a41-8dbe-cf124c442f42',
+        'X-Device-Id': DEVICE_ID,
       },
       body: JSON.stringify({
-        expected_output_amount: amount,
+        expected_output_amount: parsedAmount,
+        notes: concept,
+        fiat: currency,
       }),
     });
 
@@ -15,6 +23,6 @@ export const createOrder = async (amount: number) => {
     return data;
   } catch (error) {
     console.error('Error creando la orden:', error);
-    throw error; 
+    throw error;
   }
 };

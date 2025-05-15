@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { Button } from 'react-native-paper';
 import { navigate } from '@helpers/index';
-import logo from '../../assets/congrats.png';
 import styles from './styles';
+import logo from '../../assets/congrats.png';
 
 const CongratsScreen = () => {
   return (
@@ -18,7 +18,7 @@ const CongratsScreen = () => {
         onPress={() =>
           navigate.reset({
             index: 0,
-            routes: [{ name: 'CreatePayScreen' }],
+            routes: [{ name: 'CreatePayNavigation' }],
           })
         }
         labelStyle={styles.buttonLabel}

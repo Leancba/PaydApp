@@ -1,9 +1,11 @@
 import { ComponentType } from 'react';
+import { AppDispatch } from '../redux/store';
 
 export interface HeaderProps {
-  title: string;
+  title?: string;
   back?: boolean;
   isCurrency?: boolean;
+  banner?: boolean;
 }
 
 export type CurrencyItem = {
@@ -14,9 +16,35 @@ export type CurrencyItem = {
 };
 
 export interface PaymentCardProps {
-  amount: number;
+  amount: string | null;
   currency: string;
 }
+
+export interface SendModalProps  {
+  visible: boolean;
+  onClose: () => void;
+};
+
+interface CreateOrderResponse {
+  web_url?: string;
+  identifier?: string;
+}
+
+export interface CreateOrderFn {
+  (amount: string, currency: string, concept: string): Promise<CreateOrderResponse>;
+}
+
+export interface CreateOrdeServiceFn {
+  (
+    amount: string,
+    currency: string,
+    concept?: string,
+    dispatch?: AppDispatch
+  ): Promise<void>;
+}
+
+
+
 
 
 

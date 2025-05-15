@@ -26,14 +26,14 @@ const PayNavigation = () => {
 				name="QrScreen"
 				component={QrScreen}
 				options={() => ({
-					header: () => <Header title="" />
+					header: () => <Header/>
 				})}
 			/>
 			<Stack.Screen
 				name="SuccessfulPayScreen"
 				component={SuccessfulPayScreen}
 				options={() => ({
-					header: () => <Header title="" />
+					header: () => <Header banner={true} back={false} />
 				})}
 			/>
 		</Stack.Navigator>

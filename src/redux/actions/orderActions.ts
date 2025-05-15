@@ -1,23 +1,24 @@
 import { store } from '../store';
 import { setWebUrl, setLoading, setIdentifier } from '../slices/order.slice';
 import { createOrder } from '@services/paidServices';
+import { CreateOrdeServiceFn } from '@interfaces/components';
 
-export const createOrdeService = async (amount: number) => {
- try {
-    store.dispatch(setLoading(true));
+export const createOrdeService: CreateOrdeServiceFn = async (amount, currency, concept, dispatch = store.dispatch) => {
+  try {
 
-    const data = await createOrder(amount);
+    dispatch(setLoading(true));
+    const data = await createOrder(amount, currency, concept);
+
     if (data?.web_url) {
-      store.dispatch(setWebUrl(data.web_url));
+      dispatch(setWebUrl(data.web_url));
     }
 
     if (data?.identifier) {
-      store.dispatch(setIdentifier(data.identifier));
+      dispatch(setIdentifier(data.identifier));
     }
-
   } catch (error) {
-    console.error('Error al crear orden:', error);
+    throw error
   } finally {
-    store.dispatch(setLoading(false));
+    dispatch(setLoading(false));
   }
 };

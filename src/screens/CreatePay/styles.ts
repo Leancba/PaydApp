@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 20,
+    padding: 16,
     backgroundColor: colors.background,
   },
   title: {
@@ -42,16 +42,25 @@ export default StyleSheet.create({
   conceptCounter: {
     marginTop: 5,
     color: colors.grey,
-    alignSelf: 'flex-end',
+    textAlign:'right',
   },
-  button: {
+  enabledButton: {
+    marginTop: 8,
+    backgroundColor: '#035AC5',
+    height: 56,
+    justifyContent: 'center',
+  },
+   disabledButton: {
     marginTop: 8,
     backgroundColor: colors.blue6,
     height: 56,
     justifyContent: 'center',
   },
-  buttonLabel: {
+  disabledButtonLabel: {
     color: colors.blue3,
+  },
+   enabledButtonLabel: {
+    color: '#FFFFFF',
   },
   currencySymbol: {
     fontSize: 40,

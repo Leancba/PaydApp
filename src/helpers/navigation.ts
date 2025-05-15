@@ -2,12 +2,12 @@ import { createNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainStackParamList } from '@interfaces/navigation';
 
-export const navigationRef = createNavigationContainerRef();
+export const navigationRef = createNavigationContainerRef<MainStackParamList>();
 
 export const navigate = {
-  to: (name: string, params?: object) => {
+  to: (name: string) => {
     if (navigationRef.isReady()) {
-      navigationRef.navigate(name, params);
+      navigationRef.navigate(name as any);
     }
   },
   goBack: () => {

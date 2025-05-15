@@ -1,11 +1,13 @@
 import React from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import styles from './styles';
-import { TextInput, List, Checkbox } from 'react-native-paper';
+import { TextInput, List } from 'react-native-paper';
 import { CountryOptions } from '@helpers/index';
 import { useSelector } from '@hooks/useSelector';
 import { updatePrefix } from '@actions/paidActions';
 import { navigate } from '@helpers/index';
+import CheckCircleIcon from '@components/checkCircleIcon';
+
 
 const SelectCountry = () => {
   const [text, setText] = React.useState('');
@@ -13,14 +15,13 @@ const SelectCountry = () => {
 
   const selectedPrefix = useSelector((state) => state.paidInfo.prefix);
 
-  const handleSelectCountry = ( prefix: string) => {
+  const handleSelectCountry = (prefix: string) => {
     updatePrefix(prefix);
     navigate.goBack()
   };
 
-
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <TextInput
         value={text}
         onChangeText={setText}
@@ -47,7 +48,7 @@ const SelectCountry = () => {
             left={(props) => <item.icon {...props} />}
             right={(props) =>
               isSelected ? (
-                <Checkbox status="checked" />
+                <CheckCircleIcon/>
               ) : (
                 <List.Icon {...props} icon="chevron-right" />
               )
@@ -55,7 +56,7 @@ const SelectCountry = () => {
           />
         );
       })}
-    </View>
+    </ScrollView>
   );
 };
 

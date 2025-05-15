@@ -1,3 +1,4 @@
+//no reciben parametros adicionales, manejamos todo por estado global
 export type MainStackParamList = {
 	CreatePayScreen: undefined;
 	CurrencySelector: undefined;

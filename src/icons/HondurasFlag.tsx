@@ -1,14 +1,13 @@
 import * as React from "react"
-import Svg, { G, Path, Defs, ClipPath } from "react-native-svg"
+import Svg, { G, Path, Defs, ClipPath, SvgProps } from "react-native-svg"
 
-export default function HondurasFlag(props) {
+export default function HondurasFlag(props: SvgProps) {
   return (
     <Svg
       width={32}
       height={32}
       viewBox="0 0 32 32"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <G clipPath="url(#clip0_4701_8127)">

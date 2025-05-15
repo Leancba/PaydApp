@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import styles from './styles';
-import { TextInput, List, Checkbox } from 'react-native-paper';
+import { TextInput, List } from 'react-native-paper';
 import { currencyOptions } from '@helpers/index';
 import { CurrencyItem } from '@interfaces/components';
 import { navigate } from '@helpers/index';
 import { updateCurrency } from '@actions/paidActions';
 import { useSelector } from '@hooks/useSelector';
+import CheckCircleIcon from '@components/checkCircleIcon';
 
 const CurrencySelector = () => {
 
   const [text, setText] = useState('');
-  
   const selectedCurrency = useSelector((state) => state.paidInfo.currency);
 
   const filteredOptions = currencyOptions.filter((item: CurrencyItem) =>
@@ -35,21 +35,21 @@ const CurrencySelector = () => {
         activeOutlineColor="#035AC5"
         outlineColor="#E5E9F2"
         placeholder="Buscar"
-        contentStyle={{fontFamily:'Mulish-Regular'}}
+        contentStyle={{ fontFamily: 'Mulish-Regular' }}
       />
       {filteredOptions.map((item) => {
         const isSelected = selectedCurrency === item.id;
         return (
           <List.Item
             key={item.id}
-            title={item.title}
-            description={item.description}
+            title={item.description}
+            description={item.id}
             descriptionNumberOfLines={1}
             onPress={() => selectCurrency(item.id)}
             left={(props) => <item.icon {...props} />}
             right={(props) =>
               isSelected ? (
-                <Checkbox color='#71B0FD' status="checked" />
+                <CheckCircleIcon/>
               ) : (
                 <List.Icon {...props} icon="chevron-right" />
               )

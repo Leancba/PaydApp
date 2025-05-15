@@ -1,11 +1,12 @@
 import { Icons } from '@icons/index';
 import { Dimensions } from 'react-native';
 import { CurrencyItem } from '@interfaces/components';
+import SplashScreen from 'react-native-splash-screen';
 
 export const currencyOptions: CurrencyItem[] = [
-  { id: 'EUR', title: 'Euro', description: 'Moneda europea', icon: Icons.EurCurrency },
-  { id: 'USD', title: 'Dólar', description: 'Moneda estadounidense', icon: Icons.UsdCurrency },
-  { id: 'GBP', title: 'Libra', description: 'Moneda británica', icon: Icons.GbpCurrency },
+  { id: 'EUR', title: 'Euro', description: 'Euro', icon: Icons.EurCurrency },
+  { id: 'USD', title: 'Dólar', description: 'Dolar estadounidense', icon: Icons.UsdCurrency },
+  { id: 'GBP', title: 'Libra', description: 'Libra esterlina', icon: Icons.GbpCurrency },
 ];
 
 export const CountryOptions = [
@@ -21,3 +22,29 @@ export const CountryOptions = [
 
 const screenWidth = Dimensions.get('window').width;
 export const qrSize = screenWidth - 96;
+
+export const formatAmountInput = (raw: string): string => {
+  const withComma = raw.replace(/\./g, ',');
+  const cleaned = withComma.replace(/[^0-9,]/g, '');
+
+  const parts = cleaned.split(',');
+
+  if (parts.length > 2) {
+    return parts[0] + ',' + parts[1];
+  }
+
+  if (parts.length === 2) {
+    return `${parts[0]},${parts[1].slice(0, 2)}`;
+  }
+
+  return cleaned;
+};
+
+export const hideSplashScreen = (delay: number = 3000) => {
+  setTimeout(() => {
+    SplashScreen.hide();
+  }, delay);
+};
+
+
+

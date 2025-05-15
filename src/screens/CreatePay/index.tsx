@@ -1,17 +1,34 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert  } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import styles from './styles';
-import { navigate } from '@helpers/index';
+import { navigate } from '@helpers/navigation';
+import { formatAmountInput } from '@helpers/options';
 import { useSelector } from '@hooks/useSelector';
-import { updateAmount } from '@actions/paidActions';
+import { updateAmount, updateConcept } from '@actions/paidActions';
+import { createOrdeService } from '@actions/orderActions';
 
 const CreatePayScreen = () => {
 
-	const [concept, setConcept] = useState("");
-	const selectedCurrency = useSelector((state) => state.paidInfo.currency);
+	const concept = useSelector((state) => state.paidInfo.concept);
+	const currency = useSelector((state) => state.paidInfo.currency);
 	const amount = useSelector((state) => state.paidInfo.amount);
-	const isEur = selectedCurrency === 'EUR';
+	const loading = useSelector((state) => state.orderInfo.loading);
+	const isEur = currency === 'EUR';
+
+	const handleContinue = async () => {
+		try {
+			if (amount) {
+				await createOrdeService(amount, currency, concept);
+				navigate.to('PayNavigation');
+			} else {
+				console.warn('El monto no es válido');
+			}
+		} catch (error) {
+			Alert.alert('Hubo un error al intentar generar el pago')
+			console.error('Error al crear la orden:', error);
+		}
+	};
 
 	return (
 
@@ -20,14 +37,19 @@ const CreatePayScreen = () => {
 				<TextInput
 					placeholder={'0.00'}
 					placeholderTextColor={"#C0CCDA"}
-					value={amount}
-					onChangeText={updateAmount}
+					value={amount ?? ''}
+					onChangeText={(text) => {
+						const formatted = formatAmountInput(text);
+						updateAmount(formatted);
+					}}
 					left={
 						!isEur && (
 							<TextInput.Icon
 								size={40}
+								rippleColor={'transparent'}
 								icon="currency-usd"
 								color={!!amount ? "#035AC5" : "#C0CCDA"}
+
 							/>
 						)
 					}
@@ -35,6 +57,7 @@ const CreatePayScreen = () => {
 						isEur && (
 							<TextInput.Icon
 								size={40}
+								rippleColor={'transparent'}
 								icon="currency-eur"
 								color={!!amount ? "#035AC5" : "#C0CCDA"}
 							/>
@@ -55,7 +78,7 @@ const CreatePayScreen = () => {
 					placeholder='Añade descripción del pago'
 					placeholderTextColor={"#647184"}
 					value={concept}
-					onChangeText={setConcept}
+					onChangeText={updateConcept}
 					maxLength={140}
 					style={styles.conceptInput}
 					mode="outlined"
@@ -68,10 +91,11 @@ const CreatePayScreen = () => {
 			</View>
 			<Button
 				mode="contained"
-				onPress={() => navigate.to('PayNavigation')}
-				labelStyle={styles.buttonLabel}
-				style={styles.button}
-				disabled={amount?.trim() === ''}
+				onPress={handleContinue}
+				labelStyle={amount ? styles.enabledButtonLabel : styles.disabledButtonLabel}
+				style={amount ? styles.enabledButton : styles.disabledButton}
+				loading={loading}
+				disabled={(amount ?? '').trim() === ''}
 			>
 				Continuar
 			</Button>

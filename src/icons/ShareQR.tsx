@@ -1,14 +1,13 @@
 import * as React from "react"
-import Svg, { Path, Rect } from "react-native-svg"
+import Svg, { Path, Rect, SvgProps } from "react-native-svg"
 
-export default function ShareQR(props) {
+export default function ShareQR(props: SvgProps) {
   return (
     <Svg
       width={56}
       height={56}
       viewBox="0 0 56 56"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <Rect width={56} height={56} rx={6} fill="#035AC5" />

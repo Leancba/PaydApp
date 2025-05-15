@@ -1,47 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { Button, IconButton, TextInput } from 'react-native-paper';
-import { navigate } from '@helpers/index';
+import { navigate } from '@helpers/navigation';
 import { Icons } from '@icons/index';
 import PaymentCard from '@components/paymentCard';
 import SendModal from '@components/sendModal';
-import { createOrdeService } from '@actions/orderActions';
 import { useSelector } from '@hooks/useSelector';
-
 import styles from './styles';
+import { createOrdeService } from '@actions/orderActions';
 
 const PaymentRequestScreen = () => {
 
 	const selectedPrefix = useSelector((state) => state.paidInfo.prefix);
 	const currency = useSelector((state) => state.paidInfo.currency);
+	const concept = useSelector((state) => state.paidInfo.concept);
 	const amount = useSelector((state) => state.paidInfo.amount);
 	const url = useSelector((state) => state.orderInfo.web_url);
 	const loading = useSelector((state) => state.orderInfo.loading);
 
 	const [whatsappNumber, setWhatsappNumber] = useState('');
 	const [whatsAppLoading, setWhatsAppLoading] = useState(false);
-
 	const [modalVisible, setModalVisible] = useState(false);
 
-
-	useEffect(() => {
-		const fetchOrder = async () => {
+	const handleContinue = async () => {
+		try {
 			if (amount) {
-				await createOrdeService(amount);
+				await createOrdeService(amount, currency, concept);
+				navigate.to('PayNavigation');
+			} else {
+				console.warn('El monto no es válido');
 			}
-		};
-		fetchOrder();
-	}, [amount]);
-
+		} catch (error) {
+			Alert.alert('Hubo un error al intentar generar el pago')
+			console.error('Error al crear la orden:', error);
+		}
+	};
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1 }}>
+
 			<PaymentCard amount={amount} currency={currency} />
 
-			<View style={{ flex: 1, width: '100%' }} >
+			<View style={styles.inputContainer} >
 				<View style={styles.linkRow}>
 					<TextInput
-						value={url}
+						value={url ?? ''}
 						style={{ backgroundColor: 'transparent', flex: 1, maxHeight: 56 }}
 						contentStyle={styles.textInputContent}
 						mode="outlined"
@@ -53,13 +56,12 @@ const PaymentRequestScreen = () => {
 						style={styles.iconButtonQR}
 						icon={(props) =>
 							loading ? (
-								<ActivityIndicator size={24} color="#035AC5" />
+								<ActivityIndicator size={20} color="#035AC5" />
 							) : (
 								<Icons.ShareQR {...props} />
 							)
 						}
 						onPress={() => navigate.to('QrScreen')}
-						disabled={loading}
 					/>
 				</View>
 				<View style={styles.linkRow}>
@@ -95,6 +97,7 @@ const PaymentRequestScreen = () => {
 							style={styles.whatsappPrefixButton}
 							icon="chevron-down"
 							onPress={() => navigate.to('SelectCountry')}
+							rippleColor={'transparent'}
 						>
 							{selectedPrefix}
 						</Button>
@@ -137,12 +140,13 @@ const PaymentRequestScreen = () => {
 				icon={() => <Icons.WalletAdd />}
 				style={styles.newRequestButton}
 				labelStyle={styles.newRequestLabel}
-				onPress={() => console.log('Nueva solicitud')}
+				onPress={handleContinue}
+				loading={loading}
 			>
 				Nueva solicitud
 			</Button>
 			<SendModal visible={modalVisible} onClose={() => setModalVisible(false)} />
-		</View>
+		</ScrollView>
 	);
 };
 

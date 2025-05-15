@@ -1,14 +1,13 @@
 import * as React from "react"
-import Svg, { G, Path, Defs, ClipPath, Rect } from "react-native-svg"
+import Svg, { Path, SvgProps} from "react-native-svg"
 
-export default function MoneyTime(props) {
+export default function MoneyTime(props: SvgProps) {
   return (
     <Svg
       width={59}
       height={58}
       viewBox="0 0 59 58"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <Path
